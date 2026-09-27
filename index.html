@@ -859,9 +859,11 @@ if (!REDUCED && typeof Lenis === 'function') {
   // on a 144Hz screen or a dropped frame instead of skewing. It is also Lenis's
   // own default, for this reason.
   //
-  // 0.1 is the library default; 0.085 is a touch longer-tailed to sit with the
-  // page's own SCRUB_SYSTEM trail without the old floatiness.
-  lenis = new Lenis({ lerp: 0.085, smoothWheel: true, syncTouch: false });
+  // 0.1 is the library default. Lower = more trail: each frame moves a
+  // smaller fraction of the remaining distance toward the target, so the
+  // glide after input stops takes longer and reads as heavier/smoother.
+  // 0.055 is a deliberately strong pull, well past "a touch longer-tailed".
+  lenis = new Lenis({ lerp: 0.055, smoothWheel: true, syncTouch: false });
   lenis.on('scroll', ScrollTrigger.update);
   gsap.ticker.add((t) => lenis.raf(t * 1000));
   gsap.ticker.lagSmoothing(0);
